@@ -1,0 +1,40 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
+        "email": { ".validate": "newData.isString()" },
+        "createdAt": { ".validate": "newData.isNumber()" },
+        "pairingCode": { ".validate": "newData.isString() && newData.val().length === 6" },
+        "sessionId": { ".validate": "newData.isString() || newData.val() === null" },
+        "partnerId": { ".validate": "newData.isString() || newData.val() === null" }
+      }
+    },
+    "sessions": {
+      "$sessionId": {
+        ".read": "root.child('users').child(auth.uid).child('sessionId').val() === $sessionId",
+        ".write": "root.child('users').child(auth.uid).child('sessionId').val() === $sessionId",
+        "user_1": { ".validate": "newData.isString()" },
+        "user_2": { ".validate": "newData.isString()" },
+        "createdAt": { ".validate": "newData.isNumber()" },
+        "user_1": {
+          "pulse": { ".validate": "newData.isNumber()" },
+          "position": {
+            "x": { ".validate": "newData.isNumber()" },
+            "y": { ".validate": "newData.isNumber()" }
+          }
+        },
+        "user_2": {
+          "pulse": { ".validate": "newData.isNumber()" },
+          "position": {
+            "x": { ".validate": "newData.isNumber()" },
+            "y": { ".validate": "newData.isNumber()" }
+          }
+        }
+      }
+    },
+    ".read": false,
+    ".write": false
+  }
+}
